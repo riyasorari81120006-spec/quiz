@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz - CSE</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>💻 Computer Science Quiz</h1>
+    <p id="chapterTitle">Loading...</p>
+    <p id="pageNumber" class="page-number"></p>
+  </header>
+
+  <nav class="main-nav">
+    <div class="logo"><a href="index.html">Diploma Quiz Portal</a></div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="cse.html">CSE</a>
+      <a href="ece.html">ECE</a>
+      <a href="ice.html">ICE</a>
+      <a href="civil.html">Civil</a>
+      <a href="scores.html">My Scores</a>
+      <a href="https://irdtuttarakhand.org.in/irdt1/irdt-download.aspx" target="_blank" rel="noopener">Syllabus</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="quiz-container">
+      <div id="loadingMessage" class="loading-message">
+        🤖 Generating quiz questions for you...
+      </div>
+      
+      <div id="quizContent" style="display:none;">
+        <div id="quiz"></div>
+        <div id="progress"></div>
+        <div id="timer"></div>
+        
+        <div class="controls">
+          <button id="submitBtn" onclick="submitQuiz()">Submit Quiz</button>
+          <button id="homeBtn" onclick="goHome()" style="display:none;">Back to Home</button>
+        </div>
+      </div>
+
+      <p id="result"></p>
+    </div>
+  </main>
+
+  <script>
+    const allQuestions = {
+      c: [
+        { question: "Who developed C language?", options: ["James Gosling","Dennis Ritchie","Bjarne Stroustrup","Ken Thompson"], answer: "Dennis Ritchie" },
+        { question: "C language is a ______ language.", options: ["High level","Low level","Middle level","Machine level"], answer: "Middle level" },
+        { question: "Which symbol ends a statement in C?", options: [".",";","#",":"], answer: ";" },
+        { question: "Which loop is guaranteed to execute at least once?", options: ["for","while","do-while","none"], answer: "do-while" },
+        { question: "Which keyword is used to store a single character?", options: ["string","char","int","float"], answer: "char" },
+        { question: "Which function is used to print output?", options: ["print()","scanf()","printf()","output()"], answer: "printf()" },
+        { question: "Header file for malloc()?", options: ["stdio.h","stdlib.h","string.h","math.h"], answer: "stdlib.h" },
+        { question: "Which operator is used for pointer dereferencing?", options: ["*","&","->","%"], answer: "*" },
+        { question: "Array indexing in C starts from?", options: ["0","1","-1","Depends"], answer: "0" },
+        { question: "Default return type of a function if not specified?", options: ["void","int","float","char"], answer: "int" },
+        { question: "What is the size of int in C?", options: ["1 byte","2 bytes","4 bytes","8 bytes"], answer: "4 bytes" },
+        { question: "Which is a correct variable declaration in C?", options: ["int x;","int x = ;","int ;","x int;"], answer: "int x;" },
+        { question: "What does static keyword do?", options: ["Makes variable local","Allocates memory at compile time","Preserves variable value","All of above"], answer: "Preserves variable value" },
+        { question: "Which operator has highest precedence?", options: ["*","+","()","++"], answer: "()" },
+        { question: "What is NULL pointer?", options: ["Pointer to 0","Uninitialized pointer","Pointer to null","None"], answer: "Pointer to 0" },
+        { question: "Which header file is required for strlen()?", options: ["stdio.h","stdlib.h","string.h","math.h"], answer: "string.h" },
+        { question: "What is the output of printf(\"%d\", 5/2);?", options: ["2.5","2","2.0","Error"], answer: "2" },
+        { question: "Which function is used to allocate memory dynamically?", options: ["malloc()","calloc()","realloc()","All of above"], answer: "malloc()" },
+        { question: "What is the scope of a static variable declared in a function?", options: ["Global","Local to function","Module level","File level"], answer: "Local to function" },
+        { question: "Which is not a valid C data type?", options: ["int","float","string","char"], answer: "string" }
+      ],
+      dbms: [
+        { question: "DBMS stands for?", options: ["Database Management System","Data Backup Management System","Database Machine Software","None"], answer: "Database Management System" },
+        { question: "Which normal form removes partial dependency?", options: ["1NF","2NF","3NF","BCNF"], answer: "2NF" },
+        { question: "Which normal form removes transitive dependency?", options: ["1NF","2NF","3NF","BCNF"], answer: "3NF" },
+        { question: "Which SQL command is used to delete a table permanently?", options: ["DELETE","DROP","REMOVE","CLEAR"], answer: "DROP" },
+        { question: "Which key uniquely identifies a row?", options: ["Foreign key","Primary key","Candidate key","Alternate key"], answer: "Primary key" },
+        { question: "Which join returns all records when there is a match?", options: ["INNER JOIN","OUTER JOIN","CROSS JOIN","SELF JOIN"], answer: "INNER JOIN" },
+        { question: "ER model is used for?", options: ["Design","Execution","Implementation","Storage"], answer: "Design" },
+        { question: "Which command retrieves data?", options: ["SELECT","INSERT","DELETE","UPDATE"], answer: "SELECT" },
+        { question: "A set of one or more attributes to uniquely identify a row is?", options: ["Super key","Primary key","Foreign key","Candidate key"], answer: "Super key" },
+        { question: "In SQL, COUNT(*) returns?", options: ["Sum","Average","Number of rows","Maximum"], answer: "Number of rows" },
+        { question: "What is the full form of ACID?", options: ["Atomicity, Consistency, Isolation, Durability","Availability, Consistency, Isolation, Data","Atomicity, Concurrency, Isolation, Durability","None"], answer: "Atomicity, Consistency, Isolation, Durability" },
+        { question: "Which is not a valid SQL statement?", options: ["SELECT","MERGE","INSERT","RETRIEVE"], answer: "RETRIEVE" },
+        { question: "What does DISTINCT keyword do?", options: ["Removes duplicates","Sorts data","Filters data","Groups data"], answer: "Removes duplicates" },
+        { question: "Which clause is used to filter groups?", options: ["WHERE","GROUP BY","HAVING","FILTER"], answer: "HAVING" },
+        { question: "What is a trigger in DBMS?", options: ["Event that executes on DB action","Index on table","View of table","Constraint"], answer: "Event that executes on DB action" },
+        { question: "What is denormalization?", options: ["Adding redundancy for performance","Removing redundancy","Creating new tables","Deleting data"], answer: "Adding redundancy for performance" },
+        { question: "Which normal form deals with non-key dependencies?", options: ["1NF","2NF","3NF","BCNF"], answer: "3NF" },
+        { question: "What is a candidate key?", options: ["Primary key","Super key that can be primary","Minimal super key","Foreign key"], answer: "Minimal super key" },
+        { question: "Which operation is used to combine two tables?", options: ["JOIN","MERGE","UNION","BLEND"], answer: "JOIN" },
+        { question: "What is the purpose of indexing?", options: ["Speed up queries","Reduce storage","Improve security","Normalize data"], answer: "Speed up queries" }
+      ],
+      coa: [
+        { question: "PC stands for?", options: ["Program Counter","Process Control","Processor Chip","Primary Circuit"], answer: "Program Counter" },
+        { question: "Which register stores the current instruction?", options: ["IR","PC","MAR","MDR"], answer: "IR" },
+        { question: "Which memory is volatile?", options: ["ROM","RAM","Hard Disk","CD"], answer: "RAM" },
+        { question: "Which algorithm is used for multiplication?", options: ["Booth's","Kruskal","QuickSort","Dijkstra"], answer: "Booth's" },
+        { question: "Cache is placed between?", options: ["CPU and RAM","RAM and HDD","HDD and Monitor","ALU and CU"], answer: "CPU and RAM" },
+        { question: "Which addressing mode uses base+offset?", options: ["Direct","Indirect","Indexed","Immediate"], answer: "Indexed" },
+        { question: "Control unit types?", options: ["Hardwired & Microprogrammed","Sequential & Combinational","Static & Dynamic","Simple & Complex"], answer: "Hardwired & Microprogrammed" },
+        { question: "Which bus carries instructions?", options: ["Data bus","Control bus","Address bus","Instruction bus"], answer: "Control bus" },
+        { question: "Decimal 10 in binary?", options: ["1010","1111","1100","1001"], answer: "1010" },
+        { question: "Floating point numbers are represented using?", options: ["Mantissa & Exponent","Registers","Cache","Opcode"], answer: "Mantissa & Exponent" },
+        { question: "What is the purpose of MAR?", options: ["Store memory address","Store data","Store instructions","Store results"], answer: "Store memory address" },
+        { question: "Which is the fastest memory?", options: ["RAM","ROM","Cache","HDD"], answer: "Cache" },
+        { question: "What does ALU stand for?", options: ["Arithmetic Logic Unit","Advanced Logic Unit","Arithmetic Logical Use","None"], answer: "Arithmetic Logic Unit" },
+        { question: "How many bits in a byte?", options: ["4","8","16","32"], answer: "8" },
+        { question: "Which register is used for arithmetic operations?", options: ["Accumulator","Counter","Index","Pointer"], answer: "Accumulator" },
+        { question: "What is the function of Control Unit?", options: ["Perform calculations","Control operations","Store data","Manage memory"], answer: "Control operations" },
+        { question: "Which type of memory loses data when power is off?", options: ["Volatile","Non-volatile","Static","Dynamic"], answer: "Volatile" },
+        { question: "What is a bus in computer architecture?", options: ["Communication pathway","Storage device","Processing unit","I/O device"], answer: "Communication pathway" },
+        { question: "How many address lines for 64KB memory?", options: ["8","10","12","16"], answer: "16" },
+        { question: "Which operation cannot be performed by ALU?", options: ["Addition","Subtraction","Logical AND","Storage"], answer: "Storage" }
+      ],
+      os: [
+        { question: "Which OS is open source?", options: ["Windows","Linux","MacOS","MS-DOS"], answer: "Linux" },
+        { question: "Which scheduling algorithm is non-preemptive?", options: ["Round Robin","SJF","Priority","FCFS"], answer: "FCFS" },
+        { question: "Deadlock avoidance uses?", options: ["Banker's Algorithm","FIFO","Semaphore","Paging"], answer: "Banker's Algorithm" },
+        { question: "Which is not a type of OS?", options: ["Batch","Real-time","Time-sharing","Overloaded"], answer: "Overloaded" },
+        { question: "Page replacement algorithms are part of?", options: ["CPU Scheduling","Memory Management","Disk Scheduling","Deadlock Handling"], answer: "Memory Management" },
+        { question: "Which is a preemptive scheduling algorithm?", options: ["FCFS","SJF","Round Robin","None"], answer: "Round Robin" },
+        { question: "Which command shuts down Linux?", options: ["halt","exit","stop","shutdown"], answer: "shutdown" },
+        { question: "Critical section problem is solved by?", options: ["Semaphores","Compilers","Caches","Registers"], answer: "Semaphores" },
+        { question: "Thrashing is related to?", options: ["Memory","CPU","Deadlock","I/O"], answer: "Memory" },
+        { question: "Which is not OS function?", options: ["Process management","Memory management","Networking","Compiling"], answer: "Compiling" },
+        { question: "What is a process?", options: ["Program in execution","Source code","Compiled code","Data"], answer: "Program in execution" },
+        { question: "Which process state comes after running?", options: ["Ready","Waiting","Terminated","Suspended"], answer: "Waiting" },
+        { question: "What is context switching?", options: ["Switching between processes","Switching between languages","Switching memory","Switching devices"], answer: "Switching between processes" },
+        { question: "Which scheduling gives priority to short jobs?", options: ["FCFS","SJF","Priority","Round Robin"], answer: "SJF" },
+        { question: "What is a thread?", options: ["Light-weight process","Heavy process","Kernel module","Device driver"], answer: "Light-weight process" },
+        { question: "Which resource allocation can cause deadlock?", options: ["CPU","Memory","I/O devices","All of above"], answer: "All of above" },
+        { question: "What is a semaphore?", options: ["Synchronization variable","Memory variable","Counter only","None"], answer: "Synchronization variable" },
+        { question: "Virtual memory is implemented using?", options: ["RAM","Paging","Cache","ROM"], answer: "Paging" },
+        { question: "Which memory management strategy is most efficient?", options: ["Fixed partitioning","Dynamic partitioning","Paging","Segmentation"], answer: "Paging" },
+        { question: "What is IPC?", options: ["Inter-Process Communication","Internal Program Checker","Information Processing Center","None"], answer: "Inter-Process Communication" }
+      ]
+    };
+
+    let quizData = [];
+    let selectedChapter = "";
+    let numQuestions = 0;
+    let currentQuestion = 0;
+    let score = 0;
+    let userAnswers = [];
+    let timer;
+    let timeLeft = 0;
+
+    function initQuiz() {
+      // Support two modes: built-in chapter (selectedChapter) or customQuestions passed from other pages
+      const customJson = sessionStorage.getItem('customQuestions');
+      const quizTimeMins = parseInt(sessionStorage.getItem("quizTime")) || 0;
+
+      if (customJson) {
+        // Use custom questions provided by e.g. ece.html / ice.html / civil.html
+        const availableQuestions = JSON.parse(customJson);
+        numQuestions = parseInt(sessionStorage.getItem("numQuestions")) || 5;
+        if (numQuestions > availableQuestions.length) numQuestions = availableQuestions.length;
+        quizData = getRandomQuestions(availableQuestions, numQuestions);
+        userAnswers = new Array(quizData.length).fill(null);
+        const customTitle = sessionStorage.getItem('customTitle') || 'Custom Quiz';
+        document.getElementById("chapterTitle").textContent = `${customTitle} - ${numQuestions} Questions${quizTimeMins ? ' (' + quizTimeMins + ' min)' : ''}`;
+      } else {
+        // Get values from sessionStorage for built-in chapters
+        selectedChapter = sessionStorage.getItem("selectedChapter");
+        numQuestions = parseInt(sessionStorage.getItem("numQuestions")) || 5;
+
+        if (!selectedChapter || !allQuestions[selectedChapter]) {
+          window.location.href = "cse.html";
+          return;
+        }
+
+        // Update chapter title
+        const chapterNames = {
+          c: "C Programming",
+          dbms: "DBMS",
+          coa: "Computer Organization & Architecture",
+          os: "Operating System"
+        };
+
+        document.getElementById("chapterTitle").textContent = `${chapterNames[selectedChapter]} - ${numQuestions} Questions${quizTimeMins ? ' (' + quizTimeMins + ' min)' : ''}`;
+
+        // Get random questions
+        const availableQuestions = allQuestions[selectedChapter];
+        if (numQuestions > availableQuestions.length) {
+          numQuestions = availableQuestions.length;
+        }
+
+        quizData = getRandomQuestions(availableQuestions, numQuestions);
+        userAnswers = new Array(quizData.length).fill(null);
+      }
+
+      // Simulate loading delay (like AI generating questions)
+      setTimeout(() => {
+        document.getElementById("loadingMessage").style.display = "none";
+        document.getElementById("quizContent").style.display = "block";
+        displayQuestion();
+        startTimer();
+      }, 1500);
+    }
+
+    function getRandomQuestions(questions, num) {
+      const shuffled = [...questions].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, num);
+    }
+
+    function displayQuestion() {
+      const question = quizData[currentQuestion];
+      const quizDiv = document.getElementById("quiz");
+      // Update top page number indicator
+      const pageEl = document.getElementById('pageNumber');
+      if (pageEl) pageEl.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+      
+      let html = `
+        <div class="question">
+          <h3>Question ${currentQuestion + 1} of ${quizData.length}</h3>
+          <p>${question.question}</p>
+          <div class="options">
+      `;
+
+      question.options.forEach((option, index) => {
+        const isChecked = userAnswers[currentQuestion] === option ? "checked" : "";
+        html += `
+          <label class="option">
+            <input type="radio" name="answer" value="${option}" ${isChecked} 
+              onchange="userAnswers[${currentQuestion}] = this.value">
+            ${option}
+          </label>
+        `;
+      });
+
+      html += `
+          </div>
+          <div class="question-navigation">
+            <button onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>← Previous</button>
+            <button onclick="nextQuestion()" ${currentQuestion === quizData.length - 1 ? 'disabled' : ''}>Next →</button>
+          </div>
+        </div>
+      `;
+
+      quizDiv.innerHTML = html;
+      updateProgress();
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        displayQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < quizData.length - 1) {
+        currentQuestion++;
+        displayQuestion();
+      }
+    }
+
+    function updateProgress() {
+      const progressDiv = document.getElementById("progress");
+      const answered = userAnswers.filter(a => a !== null).length;
+      // Show current question number and answered count
+      progressDiv.innerHTML = `<p>Progress: Question ${currentQuestion + 1}/${quizData.length} — Answered: ${answered}/${quizData.length}</p>`;
+    }
+
+    function startTimer() {
+      // If user set a total time, use that (in minutes). Otherwise default to 30s per question.
+      const quizTimeMins = parseInt(sessionStorage.getItem("quizTime"));
+      if (quizTimeMins && quizTimeMins > 0) {
+        timeLeft = quizTimeMins * 60;
+      } else {
+        timeLeft = quizData.length * 30; // 30 seconds per question
+      }
+      updateTimer();
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          submitQuiz();
+        }
+      }, 1000);
+    }
+
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      document.getElementById("timer").innerHTML = `<p>⏱️ Time left: ${minutes}:${seconds.toString().padStart(2, '0')}</p>`;
+    }
+
+    function submitQuiz() {
+      clearInterval(timer);
+      
+      score = 0;
+      quizData.forEach((q, index) => {
+        if (userAnswers[index] === q.answer) {
+          score++;
+        }
+      });
+
+      const percentage = Math.round((score / quizData.length) * 100);
+      const resultDiv = document.getElementById("result");
+
+      // Save score to localStorage
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      if (currentUser) {
+        saveScoreToLocalStorage(currentUser.email, {
+          name: currentUser.name,
+          branch: getBranchName(),
+          topic: getTopicName(),
+          score: score,
+          totalQuestions: quizData.length,
+          percentage: percentage,
+          timestamp: new Date().toISOString()
+        });
+      }
+
+      // Build answer review block showing user's answer and correct answer
+      let reviewHtml = `
+        <div class="result-box">
+          <h2>Quiz Completed! 🎉</h2>
+          <p>Your Score: <strong>${score}/${quizData.length}</strong></p>
+          <p>Percentage: <strong>${percentage}%</strong></p>
+          <p>${percentage >= 70 ? "Great job! Keep it up!" : "Good effort! Try again."}</p>
+        </div>
+        <div class="answer-review">
+          <h3>Answer Review</h3>
+      `;
+
+      quizData.forEach((q, index) => {
+        const userAns = userAnswers[index] === null ? 'No answer' : userAnswers[index];
+        const correctAns = q.answer;
+        const isCorrect = userAnswers[index] === q.answer;
+        reviewHtml += `
+          <div class="answer-row ${isCorrect ? 'correct' : 'incorrect'}">
+            <p class="question-text">${index + 1}. ${q.question}</p>
+            <p class="user-answer">Your answer: <span class="user-val">${escapeHtml(userAns)}</span></p>
+            <p class="correct-answer">Correct answer: <span class="correct-val">${escapeHtml(correctAns)}</span></p>
+          </div>
+        `;
+      });
+
+      reviewHtml += `</div>`;
+
+      // Show results and review
+      document.getElementById("quiz").innerHTML = ""; // remove questions
+      document.getElementById("progress").innerHTML = "";
+      document.getElementById("timer").innerHTML = "";
+      document.getElementById("submitBtn").style.display = "none";
+      document.getElementById("homeBtn").style.display = "inline-block";
+
+      resultDiv.innerHTML = reviewHtml;
+      // scroll to results
+      resultDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function getBranchName() {
+      const customTitle = sessionStorage.getItem('customTitle');
+      if (customTitle && customTitle.includes('Quiz')) {
+        return customTitle.replace(' Quiz', '').replace('AI Generated Quiz: ', '').trim();
+      }
+      
+      const branchMap = {
+        c: "CSE",
+        dbms: "CSE",
+        coa: "CSE",
+        os: "CSE"
+      };
+      
+      return branchMap[selectedChapter] || "General";
+    }
+
+    function getTopicName() {
+      const customTitle = sessionStorage.getItem('customTitle');
+      if (customTitle && customTitle.includes('AI Generated Quiz')) {
+        return customTitle.replace('AI Generated Quiz: ', '').trim();
+      }
+      
+      const chapterNames = {
+        c: "C Programming",
+        dbms: "DBMS",
+        coa: "Computer Organization & Architecture",
+        os: "Operating System"
+      };
+      
+      return chapterNames[selectedChapter] || customTitle || "Custom Quiz";
+    }
+
+    function saveScoreToLocalStorage(userEmail, scoreData) {
+      const allScores = JSON.parse(localStorage.getItem("scores")) || {};
+      if (!allScores[userEmail]) {
+        allScores[userEmail] = [];
+      }
+      allScores[userEmail].push(scoreData);
+      localStorage.setItem("scores", JSON.stringify(allScores));
+    }
+
+    // Small helper to escape HTML (prevent accidental markup when showing answers)
+    function escapeHtml(text) {
+      if (typeof text !== 'string') return text;
+      return text.replace(/&/g, '&amp;')
+                 .replace(/</g, '&lt;')
+                 .replace(/>/g, '&gt;')
+                 .replace(/"/g, '&quot;')
+                 .replace(/'/g, '&#039;');
+    }
+
+    function goHome() {
+      // Clear custom or selected chapter state and return to selection page
+      sessionStorage.removeItem("selectedChapter");
+      sessionStorage.removeItem("numQuestions");
+      sessionStorage.removeItem("quizTime");
+      sessionStorage.removeItem("customQuestions");
+      sessionStorage.removeItem("customTitle");
+      window.location.href = "cse.html";
+    }
+
+    // Initialize when page loads
+    window.addEventListener("load", initQuiz);
+
+    // Highlight active navigation link
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.main-nav a');
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

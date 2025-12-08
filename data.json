@@ -1,0 +1,50 @@
+{
+  "users": [],
+  "scores": [
+    {
+      "id": "1765121909969-37692",
+      "topic": "C Programming",
+      "branch": "CSE",
+      "timestamp": "2025-12-07T16:18:59.1786480+05:30",
+      "totalQuestions": 10,
+      "name": "Test User",
+      "percentage": 80,
+      "score": 8,
+      "email": "testuser@gamil.com"
+    },
+    {
+      "id": "1765121909969-82905",
+      "email": "ananyagmail.com",
+      "name": "ananya",
+      "branch": "CSE",
+      "topic": "C Programming",
+      "score": 2,
+      "totalQuestions": 2,
+      "percentage": 100,
+      "timestamp": "2025-12-07T12:44:15.621Z",
+      "kept": true
+    },
+    {
+      "id": "1765121909969-4130",
+      "email": "ananyagmail.com",
+      "name": "ananya",
+      "branch": "CSE",
+      "topic": "C Programming",
+      "score": 1,
+      "totalQuestions": 2,
+      "percentage": 50,
+      "timestamp": "2025-12-07T12:44:26.807Z"
+    },
+    {
+      "id": "1765121909969-91443",
+      "email": "ananyagmail.com",
+      "name": "ananya",
+      "branch": "CSE",
+      "topic": "Computer Organization & Architecture",
+      "score": 1,
+      "totalQuestions": 2,
+      "percentage": 50,
+      "timestamp": "2025-12-07T12:59:42.315Z"
+    }
+  ]
+}

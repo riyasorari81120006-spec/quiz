@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ECE Quiz</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>📡 Electronics & Communication Engineering Quiz</h1> 
+    <p>Chapter-wise practice for Diploma Students</p>
+  </header>
+  <nav class="main-nav">
+    <div class="logo"><a href="index.html">Diploma Quiz Portal</a></div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="cse.html">CSE</a>
+      <a href="ece.html">ECE</a>
+      <a href="ice.html">ICE</a>
+      <a href="civil.html">Civil</a>
+      <a href="scores.html">My Scores</a>
+      <a href="https://irdtuttarakhand.org.in/irdt1/irdt-download.aspx" target="_blank" rel="noopener">Syllabus</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="quiz-notes-container">
+      <!-- Left Panel -->
+      <div class="notes-panel">
+        <div class="thinking-box">
+          <img src="https://tse2.mm.bing.net/th/id/OIP.1yjGXZhwRCSi344nNU96pwAAAA?pid=Api&P=0&h=180" alt="Ohm's Law" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>⚡ Basic Fact 1</strong>
+            <p>Ohm's Law (V=IR) is fundamental to circuit analysis.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse1.mm.bing.net/th/id/OIP.dfHveZabi8QCC36zTM6QDgHaG4?pid=Api&P=0&h=180" alt="Logic Gates" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>⚡ Digital Fact 1</strong>
+            <p>Logic gates are the building blocks of digital circuits.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://images.unsplash.com/photo-1564466809058-bf4114d55352?w=300&h=120&fit=crop" alt="Modulation" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>⚡ Comm Fact 1</strong>
+            <p>Modulation converts signals for transmission over channels.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Quiz Content -->
+      <div class="quiz-main-content">
+        <div class="quiz-container">
+          <h2>ECE Quick Quiz</h2>
+          <select id="chapterSelect" onchange="loadChapter()">
+            <option value="">-- Choose Chapter --</option>
+            <option value="basic">Chapter 1: Basic Electronics</option>
+            <option value="digital">Chapter 2: Digital Electronics</option>
+            <option value="comm">Chapter 3: Communication Systems</option>
+            <option value="micro">Chapter 4: Microprocessors</option>
+          </select>
+          <div class="question-count-block">
+            <label for="questionCount">Number of Questions:</label>
+            <input type="number" id="questionCount" min="1" max="20" value="5" />
+          </div>
+          <div class="question-time-block">
+            <label for="quizTime">Total Time (minutes):</label>
+            <input type="number" id="quizTime" min="1" max="120" value="5" />
+          </div>
+          <div id="quiz"></div>
+          <div class="controls">
+            <button id="startBtn" onclick="startQuiz()">Start</button>
+          </div>
+          <p id="result"></p>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="notes-panel">
+        <div class="thinking-box">
+          <img src="https://tse1.mm.bing.net/th/id/OIP.YC73XXv1Ycq8FWZACxAh6AHaES?pid=Api&P=0&h=180" alt="Diodes" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>📡 Basic Fact 2</strong>
+            <p>Diodes conduct current in one direction only.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300&h=120&fit=crop" alt="Boolean Algebra" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>📡 Digital Fact 2</strong>
+            <p>Boolean algebra simplifies digital logic design.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse4.mm.bing.net/th/id/OIP.qouruIri2QSy3YMJYgEhwgHaGN?pid=Api&P=0&h=180" alt="Signal Processing" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>📡 Comm Fact 2</strong>
+            <p>Nyquist theorem guides sampling frequency selection.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const quizData = [
+      // ----- Chapter 1: Basic Electronics -----
+      {
+        question: "What is the unit of resistance?",
+        options: ["Ohm", "Farad", "Henry", "Ampere"],
+        answer: "Ohm"
+      },
+      {
+        question: "Which device converts AC to DC?",
+        options: ["Rectifier", "Oscillator", "Amplifier", "Filter"],
+        answer: "Rectifier"
+      },
+      {
+        question: "Which law states V=IR?",
+        options: ["Ohm's Law", "Faraday's Law", "Kirchhoff’s Law", "Ampere’s Law"],
+        answer: "Ohm's Law"
+      },
+
+      // ----- Chapter 2: Digital Electronics -----
+      {
+        question: "The basic building block of digital circuits is:",
+        options: ["Diode", "Transistor", "Logic Gate", "Capacitor"],
+        answer: "Logic Gate"
+      },
+      {
+        question: "Binary equivalent of decimal number 10 is:",
+        options: ["1110", "1010", "1001", "1100"],
+        answer: "1010"
+      },
+      {
+        question: "In Boolean algebra, A + A = ?",
+        options: ["0", "1", "A", "A'"],
+        answer: "A"
+      },
+      
+      // ----- Chapter 3: Communication Systems -----
+      {
+        question: "Which modulation is used in radio broadcasting?",
+        options: ["FM", "AM", "PCM", "PWM"],
+        answer: "AM"
+      },
+      {
+        question: "Nyquist theorem is related to:",
+        options: ["Sampling", "Amplification", "Demodulation", "Filtering"],
+        answer: "Sampling"
+      },
+      {
+        question: "In communication, noise affects:",
+        options: ["Signal strength", "Modulation index", "Clarity of signal", "Carrier frequency"],
+        answer: "Clarity of signal"
+      },
+
+      // ----- Chapter 4: Microprocessors -----
+      {
+        question: "8085 microprocessor is a:",
+        options: ["4-bit", "8-bit", "16-bit", "32-bit"],
+        answer: "8-bit"
+      },
+      {
+        question: "Which of the following is not an interrupt in 8085?",
+        options: ["RST 7.5", "RST 6.5", "TRAP", "CALL"],
+        answer: "CALL"
+      },
+      {
+        question: "Which register in 8085 is used as a program counter?",
+        options: ["Accumulator", "SP", "PC", "IR"],
+        answer: "PC"
+      }
+    ];
+
+    function startQuiz() {
+      const numQuestions = parseInt(document.getElementById('questionCount').value) || 5;
+      const quizTime = parseInt(document.getElementById('quizTime').value) || 5;
+      if (numQuestions < 1 || numQuestions > 100) {
+        alert('Enter a valid number of questions');
+        return;
+      }
+      // store this page's questions as customQuestions
+      sessionStorage.setItem('customQuestions', JSON.stringify(quizData));
+      sessionStorage.setItem('numQuestions', numQuestions);
+      sessionStorage.setItem('quizTime', quizTime);
+      sessionStorage.setItem('customTitle', 'ECE Quiz');
+      window.location.href = 'quiz.html';
+    }
+
+    // Highlight active navigation link
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.main-nav a');
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Diploma Quiz Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="auth.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>🎓 MIND SPARK Diploma Quiz Portal</h1>
+    <p>Login to access chapter-wise quizzes for all branches</p>
+  </header>
+
+
+  <!-- Login/Register Section -->
+  <div class="auth-container" id="auth-container">
+    <div class="auth-box" id="login-box">
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button onclick="login()">Login</button>
+      <p>New user? <a href="#" onclick="showRegister()">Register here</a></p>
+    </div>
+
+    <div class="auth-box hidden" id="register-box">
+      <h2>Register</h2>
+      <input type="text" id="regName" placeholder="Full Name" required>
+      <input type="email" id="regEmail" placeholder="Email" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+      <button onclick="register()">Register</button>
+      <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+    </div>
+  </div>
+  
+  <!-- Branch Selection (hidden until login) -->
+  <main class="branch-container hidden" id="branch-container">
+    <a href="cse.html" class="branch-card">
+      <h2> Computer Science</h2>
+      <p>Programming, DBMS, Networks, OS & more.</p>
+      <button>Start Quiz</button>
+    </a>
+<div>
+
+</div>
+    <a href="ece.html" class="branch-card">
+      <h2>Electronics & Communication</h2>
+      <p>Digital Electronics, Communication, Microprocessors.</p>
+      <button>Start Quiz</button>
+    </a>
+
+    <a href="ice.html" class="branch-card">
+      <h2> Instrumentation & Control</h2>
+      <p>Sensors, Control Systems, Measurement, Automation.</p>
+      <button>Start Quiz</button>
+    </a>
+
+    <a href="civil.html" class="branch-card">
+      <h2> Civil Engineering</h2>
+      <p>Surveying, RCC, Strength of Materials, Environmental Engg.</p>
+      <button>Start Quiz</button>
+    </a>
+
+    <a href="scores.html" class="branch-card card-scores">
+      <h2>📊 View My Scores</h2>
+      <p>Check your past quiz results and scores</p>
+      <button>View Scores</button>
+    </a>
+
+    <div class="branch-card card-create" onclick="openCreateQuizModal()">
+      <h2>➕ Create Your Own Quiz</h2>
+      <p>Build a custom quiz with your own questions</p>
+      <button>Create Now</button>
+    </div>
+
+    <a href="certificate.html" class="branch-card card-certificate">
+      <h2>🎖️ Generate Certificate</h2>
+      <p>Download your personalized certificate of achievement</p>
+      <button>Generate</button>
+    </a>
+  </main>
+    
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Diploma Quiz Portal | Designed for Students</p>
+  </footer>
+
+  <!-- Create Quiz Modal -->
+  <div id="createQuizModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close" onclick="closeCreateQuizModal()">&times;</span>
+      <h2>Create Your Own Quiz</h2>
+      <div class="modal-tabs">
+        <button class="tab-btn active" onclick="switchTab('manual')">Manual Create</button>
+        <button class="tab-btn" onclick="switchTab('ai')">AI Generate</button>
+      </div>
+
+      <!-- Manual Create Tab -->
+      <div id="manualTab" class="tab-content active">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="quizTitle">Quiz Title:</label>
+            <input type="text" id="quizTitle" placeholder="Enter quiz title" />
+          </div>
+          <div class="form-group">
+            <label for="quizDescription">Description (optional):</label>
+            <textarea id="quizDescription" placeholder="Enter quiz description" rows="2"></textarea>
+          </div>
+          <div id="questionsContainer"></div>
+          <button onclick="addNewQuestion()" class="btn-secondary">+ Add Question</button>
+        </div>
+        <div class="modal-footer">
+          <button onclick="closeCreateQuizModal()" class="btn-cancel">Cancel</button>
+          <button onclick="saveAndStartCustomQuiz()" class="btn-primary">Start Quiz</button>
+        </div>
+      </div>
+
+      <!-- AI Generate Tab -->
+      <div id="aiTab" class="tab-content hidden">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="aiTopic">Topic/Subject:</label>
+            <input type="text" id="aiTopic" placeholder="e.g., Photosynthesis, Quantum Physics, History of India" />
+          </div>
+          <div class="form-group">
+            <label for="aiQuestions">Number of Questions:</label>
+            <input type="number" id="aiQuestions" min="3" max="20" value="5" />
+          </div>
+          <div class="form-group">
+            <label for="aiDifficulty">Difficulty Level:</label>
+            <select id="aiDifficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+          <div class="ai-info">
+            <p>ℹ️ Some random question based on your topic with multiple-choice options.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button onclick="closeCreateQuizModal()" class="btn-cancel">Cancel</button>
+          <button onclick="generateAIQuiz()" class="btn-primary" id="aiGenerateBtn">Generate Quiz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let customQuestions = [];
+
+    function switchTab(tab) {
+      // Hide all tabs
+      document.getElementById('manualTab').classList.add('hidden');
+      document.getElementById('aiTab').classList.add('hidden');
+      
+      // Remove active class from all buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      
+      // Show selected tab and mark button active
+      document.getElementById(tab + 'Tab').classList.remove('hidden');
+      event.target.classList.add('active');
+    }
+
+    function openCreateQuizModal() {
+      customQuestions = [];
+      document.getElementById('quizTitle').value = '';
+      document.getElementById('quizDescription').value = '';
+      document.getElementById('questionsContainer').innerHTML = '';
+      document.getElementById('aiTopic').value = '';
+      document.getElementById('aiQuestions').value = 5;
+      addNewQuestion(); // Add one empty question by default
+      
+      // Reset to manual tab
+      document.getElementById('manualTab').classList.remove('hidden');
+      document.getElementById('aiTab').classList.add('hidden');
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-btn')[0].classList.add('active');
+      
+      document.getElementById('createQuizModal').classList.remove('hidden');
+    }
+
+    function closeCreateQuizModal() {
+      document.getElementById('createQuizModal').classList.add('hidden');
+    }
+
+    function addNewQuestion() {
+      const qIndex = document.getElementById('questionsContainer').children.length;
+      const questionDiv = document.createElement('div');
+      questionDiv.className = 'question-input-block';
+      questionDiv.innerHTML = `
+        <h4>Question ${qIndex + 1}</h4>
+        <input type="text" placeholder="Enter question text" class="q-text" value="" />
+        <div class="options-group">
+          <input type="text" placeholder="Option 1" class="q-option" value="" />
+          <input type="text" placeholder="Option 2" class="q-option" value="" />
+          <input type="text" placeholder="Option 3" class="q-option" value="" />
+          <input type="text" placeholder="Option 4" class="q-option" value="" />
+        </div>
+        <div class="form-group">
+          <label for="correctOption${qIndex}">Correct Answer (1-4):</label>
+          <input type="number" id="correctOption${qIndex}" min="1" max="4" value="1" class="q-correct" />
+        </div>
+        <button onclick="removeQuestion(this)" class="btn-remove">Remove Question</button>
+      `;
+      document.getElementById('questionsContainer').appendChild(questionDiv);
+    }
+
+    function removeQuestion(btn) {
+      btn.parentElement.remove();
+    }
+
+    function saveAndStartCustomQuiz() {
+      const title = document.getElementById('quizTitle').value.trim();
+      if (!title) {
+        alert('Please enter a quiz title');
+        return;
+      }
+
+      const questions = [];
+      const questionBlocks = document.querySelectorAll('.question-input-block');
+      
+      questionBlocks.forEach((block, idx) => {
+        const qText = block.querySelector('.q-text').value.trim();
+        const options = Array.from(block.querySelectorAll('.q-option')).map(opt => opt.value.trim()).filter(opt => opt);
+        const correctIdx = parseInt(block.querySelector('.q-correct').value) - 1;
+
+        if (!qText || options.length < 2) {
+          alert(`Question ${idx + 1} is incomplete. Please fill in the question text and at least 2 options.`);
+          return;
+        }
+
+        if (correctIdx < 0 || correctIdx >= options.length) {
+          alert(`Question ${idx + 1}: Invalid correct answer selection.`);
+          return;
+        }
+
+        questions.push({
+          question: qText,
+          options: options,
+          answer: options[correctIdx]
+        });
+      });
+
+      if (questions.length === 0) {
+        alert('Please add at least one question');
+        return;
+      }
+
+      // Store custom quiz and navigate to quiz.html
+      sessionStorage.setItem('customQuestions', JSON.stringify(questions));
+      sessionStorage.setItem('numQuestions', questions.length);
+      sessionStorage.setItem('quizTime', 5); // Default 5 minutes
+      sessionStorage.setItem('customTitle', title);
+      
+      closeCreateQuizModal();
+      window.location.href = 'quiz.html';
+    }
+
+    function generateAIQuiz() {
+      const topic = document.getElementById('aiTopic').value.trim();
+      const numQuestions = parseInt(document.getElementById('aiQuestions').value) || 5;
+      const difficulty = document.getElementById('aiDifficulty').value;
+
+      if (!topic) {
+        alert('Please enter a topic name');
+        return;
+      }
+
+      const btn = document.getElementById('aiGenerateBtn');
+      btn.disabled = true;
+      btn.textContent = '🤖 Generating...';
+
+      // Simulate AI quiz generation with a delay
+      setTimeout(() => {
+        const generatedQuestions = generateMockAIQuestions(topic, numQuestions, difficulty);
+        
+        // Store and navigate
+        sessionStorage.setItem('customQuestions', JSON.stringify(generatedQuestions));
+        sessionStorage.setItem('numQuestions', generatedQuestions.length);
+        sessionStorage.setItem('quizTime', 5); // Default 5 minutes per question
+        sessionStorage.setItem('customTitle', `AI Generated Quiz: ${topic}`);
+        
+        closeCreateQuizModal();
+        window.location.href = 'quiz.html';
+      }, 2000); // Simulate 2-second AI processing
+    }
+
+    function generateMockAIQuestions(topic, count, difficulty) {
+      // Mock AI question generation - in production, this would call a backend API
+      const easyQuestions = [
+        { question: `What is ${topic}?`, options: ["Definition A", "Definition B", "Definition C", "Definition D"], answer: "Definition A" },
+        { question: `${topic} is most commonly associated with:`, options: ["Category A", "Category B", "Category C", "Category D"], answer: "Category A" },
+        { question: `Which of the following is related to ${topic}?`, options: ["Option A", "Option B", "Option C", "Option D"], answer: "Option A" }
+      ];
+
+      const mediumQuestions = [
+        { question: `What is the primary characteristic of ${topic}?`, options: ["Characteristic 1", "Characteristic 2", "Characteristic 3", "Characteristic 4"], answer: "Characteristic 1" },
+        { question: `How does ${topic} function in practice?`, options: ["Process 1", "Process 2", "Process 3", "Process 4"], answer: "Process 1" },
+        { question: `${topic} differs from similar concepts in:`, options: ["Way 1", "Way 2", "Way 3", "Way 4"], answer: "Way 1" }
+      ];
+
+      const hardQuestions = [
+        { question: `Analyze the implications of ${topic} in modern context:`, options: ["Implication 1", "Implication 2", "Implication 3", "Implication 4"], answer: "Implication 1" },
+        { question: `What are the advanced applications of ${topic}?`, options: ["Application 1", "Application 2", "Application 3", "Application 4"], answer: "Application 1" },
+        { question: `How would you critically evaluate ${topic}?`, options: ["Evaluation 1", "Evaluation 2", "Evaluation 3", "Evaluation 4"], answer: "Evaluation 1" }
+      ];
+
+      let questionPool = difficulty === 'easy' ? easyQuestions : difficulty === 'hard' ? hardQuestions : mediumQuestions;
+      
+      // Generate requested number of questions by varying them slightly
+      const questions = [];
+      for (let i = 0; i < count; i++) {
+        const baseQ = questionPool[i % questionPool.length];
+        questions.push({
+          question: baseQ.question.replace(/\${topic}/g, topic),
+          options: baseQ.options.map((opt, idx) => `${opt} (variant ${i + 1})`),
+          answer: baseQ.options[0] + ` (variant ${i + 1})`
+        });
+      }
+
+      return questions;
+    }
+
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('createQuizModal');
+      if (event.target === modal) {
+        closeCreateQuizModal();
+      }
+    });
+
+    // Highlight active navigation link
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.main-nav a');
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    });
+  </script>

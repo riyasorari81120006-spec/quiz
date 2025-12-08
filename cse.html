@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSE Quiz</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>💻 Computer Science Quiz</h1>
+    <p>Select a chapter to start the quiz</p>
+  </header>
+  <nav class="main-nav">
+    <div class="logo"><a href="index.html">Diploma Quiz Portal</a></div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="cse.html">CSE</a>
+      <a href="ece.html">ECE</a>
+      <a href="ice.html">ICE</a>
+      <a href="civil.html">Civil</a>
+      <a href="scores.html">My Scores</a>
+      <a href="https://irdtuttarakhand.org.in/irdt1/irdt-download.aspx" target="_blank" rel="noopener">Syllabus</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="quiz-notes-container">
+      <!-- Left Panel: 3 thinking boxes -->
+      <div class="notes-panel">
+        <div class="thinking-box">
+          <img src="https://tse3.mm.bing.net/th/id/OIP.JDb-TH0we5X4Z8nIi7mp4QHaEG?pid=Api&P=0&h=180" alt="C Pointers" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>💡 C Pointers</strong>
+            <p>Pointers are powerful! They let you directly access memory addresses.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse1.mm.bing.net/th/id/OIP.s01kk6FBaSchzkiwsggwTwHaEK?pid=Api&P=0&h=180" alt="Database Normalization" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>💡 Database Normalization</strong>
+            <p>Normalization reduces redundancy and improves data integrity.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse2.mm.bing.net/th/id/OIP.rXv8r2jLqYUcTGicNsC03QAAAA?pid=Api&P=0&h=180" alt="Cache Memory" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>💡 Cache Memory</strong>
+            <p>Cache memory is faster than RAM but more expensive.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Quiz Content -->
+      <div class="quiz-main-content">
+        <div class="quiz-container">
+          <select id="chapterSelect" onchange="loadChapter()">
+            <option value="">-- Choose Chapter --</option>
+            <option value="c">C Programming</option>
+            <option value="dbms">DBMS</option>
+            <option value="coa">Computer Organization</option>
+            <option value="os">Operating System</option>
+          </select>
+
+          <div class="question-count-block">
+            <label for="questionCount">Number of Questions:</label>
+            <input type="number" id="questionCount" min="1" max="20" value="5" />
+          </div>
+          <div class="question-time-block">
+            <label for="quizTime">Total Time (minutes):</label>
+            <input type="number" id="quizTime" min="1" max="120" value="5" />
+          </div>
+
+          <div id="quiz"></div>
+          <div class="controls">
+            <button id="submitBtn" onclick="startQuiz()" >Start</button>
+            <button id="restartBtn" onclick="restartQuiz()" style="display:none;">Restart</button>
+          </div>
+
+          <div id="progress"></div>
+          <div id="timer"></div>
+          <p id="result"></p> 
+        </div>
+      </div>
+
+      <!-- Right Panel: 3 thinking boxes -->
+      <div class="notes-panel">
+        <div class="thinking-box">
+          <img src="https://tse4.mm.bing.net/th/id/OIP.rcy22qDCzkhrzJ1aMwh0qQHaGF?pid=Api&P=0&h=180" alt="Memory Management" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>📚 Memory Management</strong>
+            <p>Memory management is critical: use malloc() wisely!</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse4.mm.bing.net/th/id/OIP.4OcrZLnFZJ4JPS3d2GtG3QHaFH?pid=Api&P=0&h=180" alt="Primary Keys" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>📚 Primary Keys</strong>
+            <p>Primary keys uniquely identify every record in a table.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse4.mm.bing.net/th/id/OIP.wEctu3FmtnL9FTMMGe7V7gHaFj?pid=Api&P=0&h=180" alt="CPU Pipeline" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>📚 CPU Pipeline</strong>
+            <p>CPU pipeline improves throughput through parallel execution.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <script> 
+    const chapters = {
+      c: [
+        { question: "Who developed C language?", options: ["James Gosling","Dennis Ritchie","Bjarne Stroustrup","Ken Thompson"], answer: "Dennis Ritchie" },
+        { question: "C language is a ______ language.", options: ["High level","Low level","Middle level","Machine level"], answer: "Middle level" },
+        { question: "Which symbol ends a statement in C?", options: [".",";","#",":"], answer: ";" },
+        { question: "Which loop is guaranteed to execute at least once?", options: ["for","while","do-while","none"], answer: "do-while" },
+        { question: "Which keyword is used to store a single character?", options: ["string","char","int","float"], answer: "char" },
+        { question: "Which function is used to print output?", options: ["print()","scanf()","printf()","output()"], answer: "printf()" },
+        { question: "Header file for malloc()?", options: ["stdio.h","stdlib.h","string.h","math.h"], answer: "stdlib.h" },
+        { question: "Which operator is used for pointer dereferencing?", options: ["*","&","->","%"], answer: "*" },
+        { question: "Array indexing in C starts from?", options: ["0","1","-1","Depends"], answer: "0" },
+        { question: "Default return type of a function if not specified?", options: ["void","int","float","char"], answer: "int" }
+      ],
+      dbms: [
+        { question: "DBMS stands for?", options: ["Database Management System","Data Backup Management System","Database Machine Software","None"], answer: "Database Management System" },
+        { question: "Which normal form removes partial dependency?", options: ["1NF","2NF","3NF","BCNF"], answer: "2NF" },
+        { question: "Which normal form removes transitive dependency?", options: ["1NF","2NF","3NF","BCNF"], answer: "3NF" },
+        { question: "Which SQL command is used to delete a table permanently?", options: ["DELETE","DROP","REMOVE","CLEAR"], answer: "DROP" },
+        { question: "Which key uniquely identifies a row?", options: ["Foreign key","Primary key","Candidate key","Alternate key"], answer: "Primary key" },
+        { question: "Which join returns all records when there is a match?", options: ["INNER JOIN","OUTER JOIN","CROSS JOIN","SELF JOIN"], answer: "INNER JOIN" },
+        { question: "ER model is used for?", options: ["Design","Execution","Implementation","Storage"], answer: "Design" },
+        { question: "Which command retrieves data?", options: ["SELECT","INSERT","DELETE","UPDATE"], answer: "SELECT" },
+        { question: "A set of one or more attributes to uniquely identify a row is?", options: ["Super key","Primary key","Foreign key","Candidate key"], answer: "Super key" },
+        { question: "In SQL, COUNT(*) returns?", options: ["Sum","Average","Number of rows","Maximum"], answer: "Number of rows" }
+      ],
+      coa: [
+        { question: "PC stands for?", options: ["Program Counter","Process Control","Processor Chip","Primary Circuit"], answer: "Program Counter" },
+        { question: "Which register stores the current instruction?", options: ["IR","PC","MAR","MDR"], answer: "IR" },
+        { question: "Which memory is volatile?", options: ["ROM","RAM","Hard Disk","CD"], answer: "RAM" },
+        { question: "Which algorithm is used for multiplication?", options: ["Booth’s","Kruskal","QuickSort","Dijkstra"], answer: "Booth’s" },
+        { question: "Cache is placed between?", options: ["CPU and RAM","RAM and HDD","HDD and Monitor","ALU and CU"], answer: "CPU and RAM" },
+        { question: "Which addressing mode uses base+offset?", options: ["Direct","Indirect","Indexed","Immediate"], answer: "Indexed" },
+        { question: "Control unit types?", options: ["Hardwired & Microprogrammed","Sequential & Combinational","Static & Dynamic","Simple & Complex"], answer: "Hardwired & Microprogrammed" },
+        { question: "Which bus carries instructions?", options: ["Data bus","Control bus","Address bus","Instruction bus"], answer: "Control bus" },
+        { question: "Decimal 10 in binary?", options: ["1010","1111","1100","1001"], answer: "1010" },
+        { question: "Floating point numbers are represented using?", options: ["Mantissa & Exponent","Registers","Cache","Opcode"], answer: "Mantissa & Exponent" }
+      ],
+      os: [
+        { question: "Which OS is open source?", options: ["Windows","Linux","MacOS","MS-DOS"], answer: "Linux" },
+        { question: "Which scheduling algorithm is non-preemptive?", options: ["Round Robin","SJF","Priority","FCFS"], answer: "FCFS" },
+        { question: "Deadlock avoidance uses?", options: ["Banker’s Algorithm","FIFO","Semaphore","Paging"], answer: "Banker’s Algorithm" },
+        { question: "Which is not a type of OS?", options: ["Batch","Real-time","Time-sharing","Overloaded"], answer: "Overloaded" },
+        { question: "Page replacement algorithms are part of?", options: ["CPU Scheduling","Memory Management","Disk Scheduling","Deadlock Handling"], answer: "Memory Management" },
+        { question: "Which is a preemptive scheduling algorithm?", options: ["FCFS","SJF","Round Robin","None"], answer: "Round Robin" },
+        { question: "Which command shuts down Linux?", options: ["halt","exit","stop","shutdown"], answer: "shutdown" },
+        { question: "Critical section problem is solved by?", options: ["Semaphores","Compilers","Caches","Registers"], answer: "Semaphores" },
+        { question: "Thrashing is related to?", options: ["Memory","CPU","Deadlock","I/O"], answer: "Memory" },
+        { question: "Which is not OS function?", options: ["Process management","Memory management","Networking","Compiling"], answer: "Compiling" }
+      ]
+    };
+
+    let quizData = [];
+    let timer;
+    let timeLeft = 60;
+
+    // Facts data with images
+    const facts = [
+      {
+        title: "💡 C Pointers",
+        text: "Pointers are powerful! They let you directly access memory addresses.",
+        image: "https://tse3.mm.bing.net/th/id/OIP.JDb-TH0we5X4Z8nIi7mp4QHaEG?pid=Api&P=0&h=180"
+      },
+      {
+        title: "💡 Database Normalization",
+        text: "Normalization reduces redundancy and improves data integrity.",
+        image: "https://tse1.mm.bing.net/th/id/OIP.s01kk6FBaSchzkiwsggwTwHaEK?pid=Api&P=0&h=180"
+      },
+      {
+        title: "💡 Cache Memory",
+        text: "Cache memory is faster than RAM but more expensive.",
+        image: "https://tse2.mm.bing.net/th/id/OIP.rXv8r2jLqYUcTGicNsC03QAAAA?pid=Api&P=0&h=180"
+      },
+      {
+        title: "📚 Memory Management",
+        text: "Memory management is critical: use malloc() wisely!",
+        image: "https://tse4.mm.bing.net/th/id/OIP.rcy22qDCzkhrzJ1aMwh0qQHaGF?pid=Api&P=0&h=180"
+      },
+      {
+        title: "📚 Primary Keys",
+        text: "Primary keys uniquely identify every record in a table.",
+        image: "https://via.placeholder.com/300x200?text=Primary+Keys"
+      },
+      {
+        title: "📚 CPU Pipeline",
+        text: "CPU pipeline improves throughput through parallel execution.",
+        image: "https://tse4.mm.bing.net/th/id/OIP.wEctu3FmtnL9FTMMGe7V7gHaFj?pid=Api&P=0&h=180"
+      }
+    ];
+
+    let currentLeftFactIndex = 0;
+    let currentRightFactIndex = 1;
+
+    function loadChapter() {
+      const chapter = document.getElementById("chapterSelect").value;
+      if (chapter) {
+        document.getElementById("submitBtn").disabled = false;
+      } else {
+        document.getElementById("submitBtn").disabled = true;
+      }
+    }
+
+    function startQuiz() {
+      const chapter = document.getElementById("chapterSelect").value;
+      const numQuestions = parseInt(document.getElementById("questionCount").value) || 5;
+      const quizTimeMins = parseInt(document.getElementById("quizTime").value) || 5;
+      
+      if (!chapter) {
+        alert("Please select a chapter first!");
+        return;
+      }
+
+      if (numQuestions < 1 || numQuestions > 20) {
+        alert("Please enter a number between 1 and 20!");
+        return;
+      }
+
+      if (quizTimeMins < 1 || quizTimeMins > 120) {
+        alert("Please enter a time between 1 and 120 minutes!");
+        return;
+      }
+
+      // Store selections in sessionStorage and navigate to quiz page
+      sessionStorage.setItem("selectedChapter", chapter);
+      sessionStorage.setItem("numQuestions", numQuestions);
+      sessionStorage.setItem("quizTime", quizTimeMins);
+      window.location.href = "quiz.html";
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timeLeft = 60;
+      document.getElementById("timer").innerText = `⏱️ Time left: ${timeLeft}s`;
+      timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = `⏱️ Time left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          submitQuiz();
+        }
+      }, 1000);
+    }
+
+    function restartQuiz() {
+      document.getElementById("chapterSelect").value = "";
+      document.getElementById("questionCount").value = "5";
+      document.getElementById("quiz").innerHTML = "";
+      document.getElementById("result").innerText = "";
+      document.getElementById("progress").innerText = "";
+      document.getElementById("submitBtn").style.display = "inline-block";
+      document.getElementById("submitBtn").disabled = true;
+      document.getElementById("restartBtn").style.display = "none";
+      document.getElementById("timer").innerText = "";
+      clearInterval(timer);
+    }
+
+    // Update fact cards
+    function updateFactCards() {
+      const leftFact = facts[currentLeftFactIndex];
+      const rightFact = facts[currentRightFactIndex];
+
+      // Update left card
+      document.getElementById("leftFactImage").src = leftFact.image;
+      document.getElementById("leftFactText").innerHTML = `<strong>${leftFact.title}</strong><p>${leftFact.text}</p>`;
+
+      // Update right card
+      document.getElementById("rightFactImage").src = rightFact.image;
+      document.getElementById("rightFactText").innerHTML = `<strong>${rightFact.title}</strong><p>${rightFact.text}</p>`;
+
+      // Add fade-in animation
+      document.getElementById("leftFactCard").classList.remove("fade-in");
+      document.getElementById("rightFactCard").classList.remove("fade-in");
+      setTimeout(() => {
+        document.getElementById("leftFactCard").classList.add("fade-in");
+        document.getElementById("rightFactCard").classList.add("fade-in");
+      }, 10);
+    }
+
+    // Rotate facts every 5 seconds
+    function startFactRotation() {
+      updateFactCards();
+      setInterval(() => {
+        currentLeftFactIndex = (currentLeftFactIndex + 1) % facts.length;
+        currentRightFactIndex = (currentRightFactIndex + 1) % facts.length;
+        updateFactCards();
+      }, 5000);
+    }
+
+    // Initialize on page load
+    window.addEventListener("DOMContentLoaded", startFactRotation);
+    document.addEventListener("DOMContentLoaded", startFactRotation);
+
+    // Highlight active navigation link
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.main-nav a');
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificate Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🎖️ Certificate Generator</h1>
+    <p>Generate your personalized certificate of achievement</p>
+  </header>
+
+  <nav class="main-nav">
+    <div class="logo"><a href="index.html">Diploma Quiz Portal</a></div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="cse.html">CSE</a>
+      <a href="ece.html">ECE</a>
+      <a href="ice.html">ICE</a>
+      <a href="civil.html">Civil</a>
+      <a href="scores.html">My Scores</a>
+      <a href="https://irdtuttarakhand.org.in/irdt1/irdt-download.aspx" target="_blank" rel="noopener">Syllabus</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="cert-container">
+      <div class="cert-form-section">
+        <h2>Select Quiz for Certificate</h2>
+        <div id="noQuizzesMessage" class="alert-message" style="display:none;">
+          <p>📚 You haven't completed any quizzes yet!</p>
+          <p>Please complete at least one branch test to generate a certificate.</p>
+          <a href="cse.html" class="btn-start-quiz">Start a Quiz Now</a>
+        </div>
+
+        <div id="quizSelectionForm" style="display:none;">
+          <div class="form-group">
+            <label for="quizSelect">Select a Completed Quiz:</label>
+            <select id="quizSelect" onchange="loadQuizData()">
+              <option value="">-- Choose a quiz --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="certFullName">Your Full Name:</label>
+            <input type="text" id="certFullName" placeholder="Enter your full name" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="certBranch">Branch:</label>
+            <input type="text" id="certBranch" placeholder="Branch" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="certTopic">Topic/Chapter:</label>
+            <input type="text" id="certTopic" placeholder="Topic" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="certScore">Score:</label>
+            <input type="text" id="certScore" placeholder="Score" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="certPercentage">Percentage:</label>
+            <input type="text" id="certPercentage" placeholder="Percentage" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="certDate">Completion Date:</label>
+            <input type="text" id="certDate" placeholder="Date" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="certGrade">Grade:</label>
+            <select id="certGrade" readonly disabled>
+              <option id="gradeDisplay">A+</option>
+            </select>
+          </div>
+
+          <button class="btn-generate" onclick="generateCertificate()">Generate Certificate</button>
+        </div>
+      </div>
+
+      <div class="certificate" id="certificate" style="display:none;">
+          <div class="cert-header">
+            <div class="cert-logo">🎓</div>
+            <h1>Certificate of Achievement</h1>
+            <div class="cert-border-top"></div>
+          </div>
+
+          <div class="cert-content">
+            <p class="cert-label">This is to certify that</p>
+            <h2 class="cert-name" id="displayName">Your Name</h2>
+            <p class="cert-label">has successfully completed the course in</p>
+            <p class="cert-course" id="displayCourse">Course Name</p>
+            <p class="cert-label">with outstanding performance and achievement of</p>
+            <p class="cert-score" id="displayScore">Score</p>
+            <p class="cert-label">Grade: <span id="displayGrade">A+</span></p>
+            <p class="cert-label">on this <span id="displayDate">Date</span></p>
+          </div>
+
+          <div class="cert-footer">
+            <p class="cert-label" style="margin-bottom: 30px;">
+              This certificate is awarded in recognition of dedication, hard work, and excellence in academics.
+            </p>
+            <div class="cert-signature-block">
+              <div class="cert-sig">
+                <p>_________________</p>
+                <p>Authorized Signature</p>
+              </div>
+              <div class="cert-college">
+                <p><strong>Mind Spark Diploma Quiz Portal</strong></p>
+                <p>Excellence in Education</p>
+                <p>📍 India</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cert-border-bottom"></div>
+        </div>
+
+        <div class="cert-actions" id="certActions" style="display:none;">
+          <button class="btn-download" onclick="downloadCertificate()">📥 Download PDF</button>
+          <button class="btn-print" onclick="printCertificate()">🖨️ Print</button>
+        </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Diploma Quiz Portal | Designed for Students</p>
+  </footer>
+
+  <script src="certificate.js"></script>
+</body>
+</html>

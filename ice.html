@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ICE Quiz</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>⚡ Instrumentation & Control Engineering Quiz</h1>
+    <p>Chapter-wise practice for Diploma Students</p>
+  </header>
+  <nav class="main-nav">
+    <div class="logo"><a href="index.html">Diploma Quiz Portal</a></div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="cse.html">CSE</a>
+      <a href="ece.html">ECE</a>
+      <a href="ice.html">ICE</a>
+      <a href="civil.html">Civil</a>
+      <a href="scores.html">My Scores</a>
+      <a href="https://irdtuttarakhand.org.in/irdt1/irdt-download.aspx" target="_blank" rel="noopener">Syllabus</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="quiz-notes-container">
+      <!-- Left Panel -->
+      <div class="notes-panel">
+        <div class="thinking-box">
+          <img src="https://tse2.mm.bing.net/th/id/OIP.f0hty4IjkN3JA9QwdDxffQHaFW?pid=Api&P=0&h=180" alt="Transducers" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>🔌 Sensors Tip 1</strong>
+            <p>Transducers convert physical quantities into electrical signals.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse1.mm.bing.net/th/id/OIP.hWL2CyIyYaPR-kmJDXOGegHaEj?pid=Api&P=0&h=180" alt="Control Systems" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>🔌 Control Tip 1</strong>
+            <p>Feedback is essential for accurate control system performance.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=120&fit=crop" alt="Measurement Tools" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>🔌 Measurement Tip 1</strong>
+            <p>Accuracy and precision are critical in measurements.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Quiz Content -->
+      <div class="quiz-main-content">
+        <div class="quiz-container">
+          <h2>ICE Quick Quiz</h2>
+          <select id="chapterSelect" onchange="loadChapter()">
+            <option value="">-- Choose Chapter --</option>
+            <option value="sensors">Chapter 1: Sensors & Transducers</option>
+            <option value="control">Chapter 2: Control Systems</option>
+            <option value="instruments">Chapter 3: Measurement Instruments</option>
+            <option value="automation">Chapter 4: Industrial Automation</option>
+          </select>
+          <div class="question-count-block">
+            <label for="questionCount">Number of Questions:</label>
+            <input type="number" id="questionCount" min="1" max="20" value="5" />
+          </div>
+          <div class="question-time-block">
+            <label for="quizTime">Total Time (minutes):</label>
+            <input type="number" id="quizTime" min="1" max="120" value="5" />
+          </div>
+          <div id="quiz"></div>
+          <div class="controls">
+            <button id="startBtn" onclick="startQuiz()">Start</button>
+          </div>
+          <p id="result"></p>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="notes-panel">
+        <div class="thinking-box">
+          <img src="https://tse2.mm.bing.net/th/id/OIP.VMOdb1IDUg8-dv-h06c-KgHaFj?pid=Api&P=0&h=180" alt="LVDT Displacement" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>⚙️ Sensors Tip 2</strong>
+            <p>LVDTs are excellent for non-contact displacement measurement.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse3.mm.bing.net/th/id/OIP.VrSjT-sQfr8utfN2fNbkuQHaEv?pid=Api&P=0&h=180" alt="Industrial Control" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>⚙️ Control Tip 2</strong>
+            <p>PID controllers are widely used in industrial systems.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=120&fit=crop" alt="Calibration Equipment" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>⚙️ Measurement Tip 2</strong>
+            <p>Calibration ensures instrument accuracy and reliability.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const quizData = [
+      // ----- Chapter 1: Sensors & Transducers -----
+      {
+        question: "Which transducer converts temperature into electrical signal?",
+        options: ["Thermocouple", "LVDT", "Strain Gauge", "Potentiometer"],
+        answer: "Thermocouple"
+      },
+      {
+        question: "LVDT is used to measure:",
+        options: ["Pressure", "Temperature", "Displacement", "Flow"],
+        answer: "Displacement"
+      },
+      {
+        question: "Which sensor is used to measure light intensity?",
+        options: ["Thermistor", "Photodiode", "RTD", "Piezoelectric sensor"],
+        answer: "Photodiode"
+      },
+
+      // ----- Chapter 2: Control Systems -----
+      {
+        question: "The Laplace transform is used in control systems to:",
+        options: ["Convert signals to frequency domain", "Convert signals to time domain", "Filter signals", "Amplify signals"],
+        answer: "Convert signals to frequency domain"
+      },
+      {
+        question: "In a closed loop system, feedback is used to:",
+        options: ["Increase error", "Reduce error", "Amplify signal", "Store data"],
+        answer: "Reduce error"
+      },
+      {
+        question: "Which controller uses Proportional + Integral + Derivative action?",
+        options: ["PI", "PD", "PID", "P-only"],
+        answer: "PID"
+      },
+
+      // ----- Chapter 3: Measurement Instruments -----
+      {
+        question: "Which instrument is used to measure electrical current?",
+        options: ["Voltmeter", "Ammeter", "Wattmeter", "Ohmmeter"],
+        answer: "Ammeter"
+      },
+      {
+        question: "Which of the following measures flow of liquid?",
+        options: ["Rotameter", "Tachometer", "Dynamometer", "Manometer"],
+        answer: "Rotameter"
+      },
+      {
+        question: "Strain gauges are used for measurement of:",
+        options: ["Displacement", "Stress/strain", "Pressure", "Inductance"],
+        answer: "Stress/strain"
+      },
+
+      // ----- Chapter 4: Industrial Automation -----
+      {
+        question: "PLC stands for:",
+        options: ["Programmable Logic Controller", "Process Level Control", "Programmable Linear Calculator", "Process Logic Circuit"],
+        answer: "Programmable Logic Controller"
+      },
+      {
+        question: "SCADA is used for:",
+        options: ["Power generation", "Supervisory control & data acquisition", "Digital communication", "Signal processing"],
+        answer: "Supervisory control & data acquisition"
+      },
+      {
+        question: "In automation, actuators are used to:",
+        options: ["Sense physical quantity", "Convert signal into action", "Store data", "Amplify signal"],
+        answer: "Convert signal into action"
+      }
+    ];
+
+    function startQuiz() {
+      const numQuestions = parseInt(document.getElementById('questionCount').value) || 5;
+      const quizTime = parseInt(document.getElementById('quizTime').value) || 5;
+      if (numQuestions < 1 || numQuestions > 100) {
+        alert('Enter a valid number of questions');
+        return;
+      }
+      sessionStorage.setItem('customQuestions', JSON.stringify(quizData));
+      sessionStorage.setItem('numQuestions', numQuestions);
+      sessionStorage.setItem('quizTime', quizTime);
+      sessionStorage.setItem('customTitle', 'ICE Quiz');
+      window.location.href = 'quiz.html';
+    }
+
+    // Highlight active navigation link
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.main-nav a');
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

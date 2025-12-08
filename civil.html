@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Civil Quiz</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>🏗️ Civil Engineering Quiz</h1>
+    <p>Chapter-wise practice for Diploma Students</p>
+  </header>
+  <nav class="main-nav">
+    <div class="logo"><a href="index.html">Diploma Quiz Portal</a></div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="cse.html">CSE</a>
+      <a href="ece.html">ECE</a>
+      <a href="ice.html">ICE</a>
+      <a href="civil.html">Civil</a>
+      <a href="scores.html">My Scores</a>
+      <a href="https://irdtuttarakhand.org.in/irdt1/irdt-download.aspx" target="_blank" rel="noopener">Syllabus</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="quiz-notes-container">
+      <!-- Left Panel -->
+      <div class="notes-panel">
+        <div class="thinking-box">
+          <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=300&h=120&fit=crop" alt="Surveying Leveling" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>🏗️ Survey Tip 1</strong>
+            <p>Leveling determines relative elevations accurately.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse1.mm.bing.net/th/id/OIP.ghIm2viXBwGLWwqDwDpRZQHaDt?pid=Api&P=0&h=180" alt="Material Properties" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>🏗️ Strength Tip 1</strong>
+            <p>Poisson's ratio relates lateral and longitudinal strains.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse1.mm.bing.net/th/id/OIP.K_AwmHHAOi6AEKYXRV3uQgHaDM?pid=Api&P=0&h=180" alt="Steel Reinforcement" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>🏗️ RCC Tip 1</strong>
+            <p>Steel reinforcement resists tensile stresses in concrete.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Quiz Content -->
+      <div class="quiz-main-content">
+        <div class="quiz-container">
+          <h2>Civil Quick Quiz</h2>
+          <select id="chapterSelect" onchange="loadChapter()">
+            <option value="">-- Choose Chapter --</option>
+            <option value="surveying">Chapter 1: Surveying</option>
+            <option value="strength">Chapter 2: Strength of Materials</option>
+            <option value="rcc">Chapter 3: RCC & Structural Engineering</option>
+            <option value="environmental">Chapter 4: Environmental Engineering</option>
+          </select>
+          <div class="question-count-block">
+            <label for="questionCount">Number of Questions:</label>
+            <input type="number" id="questionCount" min="1" max="20" value="5" />
+          </div>
+          <div class="question-time-block">
+            <label for="quizTime">Total Time (minutes):</label>
+            <input type="number" id="quizTime" min="1" max="120" value="5" />
+          </div>
+          <div id="quiz"></div>
+          <div class="controls">
+            <button id="startBtn" onclick="startQuiz()">Start</button>
+          </div>
+          <p id="result"></p>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="notes-panel">
+        <div class="thinking-box">
+          <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=300&h=120&fit=crop" alt="Topographic Map" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>🏢 Survey Tip 2</strong>
+            <p>Contour lines connect points of equal elevation.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse3.mm.bing.net/th/id/OIP.MmF47qyOSXs1WGKXt8l5WQHaHd?pid=Api&P=0&h=180" alt="Material Stress Testing" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>🏢 Strength Tip 2</strong>
+            <p>Young's modulus measures material stiffness and elasticity.</p>
+          </div>
+        </div>
+        <div class="thinking-box">
+          <img src="https://tse4.mm.bing.net/th/id/OIP.pX-A_HeoRj4Fw-S2DZIq9AHaEK?pid=Api&P=0&h=180" alt="Concrete Mix" class="thinking-box-image">
+          <div class="thinking-box-content">
+            <strong>🏢 RCC Tip 2</strong>
+            <p>M20 is the minimum concrete grade for RCC construction.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+ 
+  <script>
+    const quizData = [
+      // ----- Chapter 1: Surveying -----
+      {
+        question: "Which instrument is used for leveling in surveying?",
+        options: ["Theodolite", "Dumpy Level", "Prism", "Compass"],
+        answer: "Dumpy Level"
+      },
+      {
+        question: "The line joining points of equal elevation is called:",
+        options: ["Contour", "Gradient", "Level Line", "Traverse"],
+        answer: "Contour"
+      },
+      {
+        question: "Which method is commonly used in chain surveying?",
+        options: ["Radiation method", "Traversing method", "Triangulation method", "Intersection method"],
+        answer: "Triangulation method"
+      },
+
+      // ----- Chapter 2: Strength of Materials -----
+      {
+        question: "The ratio of lateral strain to longitudinal strain is known as:",
+        options: ["Elastic limit", "Young’s modulus", "Poisson’s ratio", "Bulk modulus"],
+        answer: "Poisson’s ratio"
+      },
+      {
+        question: "Which type of stress is produced in a beam due to bending?",
+        options: ["Tensile & Compressive", "Shear", "Torsional", "Thermal"],
+        answer: "Tensile & Compressive"
+      },
+      {
+        question: "Unit of Young’s modulus is:",
+        options: ["N", "Pa", "N/m²", "Nm"],
+        answer: "N/m²"
+      },
+
+      // ----- Chapter 3: RCC & Structural Engineering -----
+      {
+        question: "In RCC, the main function of steel reinforcement is:",
+        options: ["Resist compression", "Resist tension", "Resist torsion", "Reduce weight"],
+        answer: "Resist tension"
+      },
+      {
+        question: "The minimum grade of concrete used in RCC is:",
+        options: ["M10", "M15", "M20", "M25"],
+        answer: "M20"
+      },
+      {
+        question: "Slenderness ratio is used in design of:",
+        options: ["Slabs", "Beams", "Columns", "Footings"],
+        answer: "Columns"
+      },
+
+      // ----- Chapter 4: Environmental Engineering -----
+      {
+        question: "The process of removing suspended particles from water is:",
+        options: ["Sedimentation", "Filtration", "Chlorination", "Aeration"],
+        answer: "Sedimentation"
+      },
+      {
+        question: "BOD stands for:",
+        options: ["Biological Oxygen Demand", "Basic Oxygen Demand", "Biological Oxide Demand", "Biological Ozone Demand"],
+        answer: "Biological Oxygen Demand"
+      },
+      {
+        question: "The unit process used for killing pathogenic bacteria in water treatment is:",
+        options: ["Sedimentation", "Screening", "Chlorination", "Aeration"],
+        answer: "Chlorination"
+      }
+    ];
+
+    function startQuiz() {
+      const numQuestions = parseInt(document.getElementById('questionCount').value) || 5;
+      const quizTime = parseInt(document.getElementById('quizTime').value) || 5;
+      if (numQuestions < 1 || numQuestions > 100) {
+        alert('Enter a valid number of questions');
+        return;
+      }
+      sessionStorage.setItem('customQuestions', JSON.stringify(quizData));
+      sessionStorage.setItem('numQuestions', numQuestions);
+      sessionStorage.setItem('quizTime', quizTime);
+      sessionStorage.setItem('customTitle', 'Civil Quiz');
+      window.location.href = 'quiz.html';
+    }
+
+    // Highlight active navigation link
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.main-nav a');
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+ 

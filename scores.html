@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Scores</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="scores.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>📊 My Quiz Scores</h1>
+    <p>View your quiz performance and results</p>
+  </header>
+
+  <nav class="main-nav">
+    <div class="logo"><a href="index.html">Diploma Quiz Portal</a></div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="cse.html">CSE</a>
+      <a href="ece.html">ECE</a>
+      <a href="ice.html">ICE</a>
+      <a href="civil.html">Civil</a>
+      <a href="scores.html">My Scores</a>
+      <a href="https://irdtuttarakhand.org.in/irdt1/irdt-download.aspx" target="_blank" rel="noopener">Syllabus</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="scores-wrapper">
+      <table class="scores-table" id="scoresTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Branch</th>
+            <th>Topic/Chapter</th>
+            <th>Score</th>
+            <th>Percentage</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="scoresTableBody">
+          <tr>
+            <td colspan="9" class="no-scores-msg">No scores found. Take some quizzes to get started!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer><p>© 2025 Diploma Quiz Portal | Designed for Students</p></footer>
+</body>
+</html>
